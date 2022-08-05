@@ -7,7 +7,7 @@ def index():
     if request.method == 'POST':
         data = dict(request.form)
         input = data['input']
-        return input
+        return render_template('result.html', value=input)
     else:
         return render_template('index.html')
 
