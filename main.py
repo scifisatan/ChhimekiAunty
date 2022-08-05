@@ -7,9 +7,13 @@ def index():
     if request.method == 'POST':
         data = dict(request.form)
         input = data['input']
-        return render_template('result.html', value=input)
-    else:
-        return render_template('index.html')
+        if input.startswith('https://twitter.com/'):
+            return render_template('tweet.html', input=input)
+        else:
+            return render_template('username.html', input=input)
+
+    if request.method == 'GET':
+        return render_template("index.html")
 
 
 if __name__ == '__main__':
