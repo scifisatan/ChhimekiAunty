@@ -46,7 +46,3 @@ Start the server
 - [@surajklmn](https://www.github.com/surajklmn)
 
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
