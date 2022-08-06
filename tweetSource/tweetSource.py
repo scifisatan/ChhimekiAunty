@@ -6,8 +6,7 @@ import requests
 import yaml
 import json
 
- 
-FETCHCOUNT = 50
+FETCHCOUNT = 6
 fetchedTweets = []
 fetchedContexts = []
 
@@ -17,13 +16,11 @@ topFive = set()
 #the main function
 def run(username):
     bearerToken = parse_yaml()
-
     userID = getUserID(bearerToken, username)
-    print(f"UserID is: {userID}")
 
     tweetData = getTweets(bearerToken, userID)
     jsonObj = json.loads(tweetData.text)
-    print(json.dumps(jsonObj, indent =4))
+    # print(json.dumps(jsonObj, indent =4))
     try:
         loadGlobals(jsonObj)
         topFiveTopics(fetchedContexts)
@@ -31,8 +28,7 @@ def run(username):
         if len(fetchedTweets) > 0:
             print("Only Tweets Loaded, There were no contexts.")
 
-    print("Top Five Contexts: ")
-    print(topFive)
+    return 
 
 
 #parses the yaml and obtains ApiToken
@@ -94,4 +90,4 @@ def getTweets(bearerToken, userID):
 
 
 if __name__ == "__main__":
-    run("safal2002")
+    run("elonMusk")
