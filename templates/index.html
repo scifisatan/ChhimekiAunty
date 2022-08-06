@@ -11,9 +11,9 @@
 <body>
     <div class="container">
     <form enctype = "multipart/form-data" method="POST" action="/">
-        <input type="text" name="username" placeholder="Enter twitter username or tweet link" onfocus="this.value=''">
+        <input id="input_field" type="text" name="username" placeholder="Enter twitter username or tweet link" autocomplete="off" onclick="this.value=''">
         <button id = "btn" type="submit"> <i class="fa-solid fa-magnifying-glass"></i> </button>
-    </form>
+     </form>
     </div>
 </body>
 </html>
