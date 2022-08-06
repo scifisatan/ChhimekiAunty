@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Bungee);
+@import url(https://fonts.googleapis.com/css?family=Kodchasan);
+
 #search-input{
     width: auto;
     height: 80px;
@@ -19,4 +22,10 @@ body::before {
     .news-input {
       width: 100%;
     }
+  }
+  .navbar-brand{
+    font-family: "Bungee", sans-serif;
+  }
+  h1{
+    font-family: "Kodchasan", sans-serif;
   }
