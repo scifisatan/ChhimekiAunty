@@ -1,6 +1,5 @@
-from model import blob
-from tweetSource import tweetSource
-
+import blob
+import tweetSource
 class CannotProcessUrl(Exception):
     pass
 
@@ -26,3 +25,5 @@ def process_data(user_input):
     sub_avg = sum(subjectivity) / len(subjectivity)
 
     return polarity, subjectivity, contexts, pol_avg, sub_avg
+
+
