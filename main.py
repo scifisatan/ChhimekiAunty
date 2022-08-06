@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 from blob import TweetIsEmpty
 import core
 from tweetSource import UserNotFound
-from json import dumps
+import os
 
 app = Flask(__name__)
 
@@ -41,4 +41,5 @@ def index():
 
 
 if __name__ == '__main__':
+    os.system("python -m textblob.download_corpora") 
     app.run(host='0.0.0.0',port=8080,debug=True)
