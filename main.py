@@ -16,14 +16,15 @@ def index():
         #send input data to twitter api, and model
         #the api will be used only for username
         try:
-            polarity, subjectivity, contexts, pol_avg, sub_avg = core.process_data(input)
+            polarity, subjectivity, contexts, pol_avg, sub_avg, user_name = core.process_data(input)
             
             return render_template('username.html', input = \
                 {'polarity': polarity,
                 'subjectivity': subjectivity,
                 'contexts': contexts,
                 'pol_avg': pol_avg,
-                'sub_avg': sub_avg
+                'sub_avg': sub_avg,
+                'user_name': user_name
                 })
 
         except TweetIsEmpty:

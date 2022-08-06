@@ -11,8 +11,10 @@ def process_data(user_input):
 
         #a url of username is provided the first extract the username
         if user_name := re.search(expression, user_input):
+
             user_name = user_name.group('username')
-            tweets, contexts = tweetSource.run(username=user_name)
+
+            tweets, contexts = tweetSource.run(user_name)
 
             #here we receive a list of tweets to analysis
             #a list of sentiment for each tweets will be provided
@@ -32,7 +34,7 @@ def process_data(user_input):
                 pol_avg = sum(polarity) / len(polarity)
                 sub_avg = sum(subjectivity) / len(subjectivity)
 
-            return polarity, subjectivity, contexts, pol_avg, sub_avg
+            return polarity, subjectivity, contexts, pol_avg, sub_avg, user_name
         else:
             raise tweetSource.UserNotFound
 
