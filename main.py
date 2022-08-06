@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 from blob import TweetIsEmpty
 import core
 from tweetSource import UserNotFound
+from json import dumps
 
 app = Flask(__name__)
 
@@ -18,14 +19,16 @@ def index():
         try:
             polarity, subjectivity, contexts, pol_avg, sub_avg, user_name = core.process_data(input)
             
-            return render_template('username.html', input = \
-                {'polarity': polarity,
+            data_dict = {
+                'polarity': polarity,
                 'subjectivity': subjectivity,
                 'contexts': contexts,
                 'pol_avg': pol_avg,
                 'sub_avg': sub_avg,
                 'user_name': user_name
-                })
+                }
+
+            return render_template('username.html', data = data_dict)
 
         except TweetIsEmpty:
             return render_template('notfound.html')

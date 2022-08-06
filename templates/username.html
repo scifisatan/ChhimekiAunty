@@ -1,21 +1,167 @@
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="/static/css/style.css">
-        <title>Chhimeki Aunty</title>
-    </head>
-    <body>
-        <div class="result">
-            <p>
-                username {{input['user_name']}} <br><br>
-                polarity {{input['polarity']}} <br>
-                subjectivity {{input['subjectivity']}}<br>
-                contexts {{input['contexts']}}<br>
-                <br>
-                average polarity {{input['pol_avg']}}<br>
-                average subjectivity {{input['sub_avg']}}<br>
-            </p>
-        </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/webslides.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Chhimeki Aunty</title>
+</head>
+
+<body>
+
+    <main role="main">
+        <article id="webslides" class="vertical">
+
+            <section id="firstPage">
+                <!-- <div id="polarity">
+                    <div class="wrapper-center">
+                        <div class="progress-bar_p">
+                            <svg class="progress_polarity" x="0px" y="0px" viewBox="0 0 80 80">
+                                <path class="track" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                                <path class="fill" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                                <text class="value" x="50%" y="55%">0%</text>
+                                <text class="text" x="50%" y="115%">Polarity</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                </div> -->
+                <div id="subjectivity">
+                    <div class="wrapper-center">
+                        <div class="progress-bar_s">
+                            <svg class="progress_subjectivity" x="0px" y="0px" viewBox="0 0 80 80">
+                                <path class="track" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                                <path class="fill" d="M5,40a35,35 0 1,0 70,0a35,35 0 1,0 -70,0" />
+                                <text class="value" x="50%" y="55%">0%</text>
+                                <text class="text" x="50%" y="115%">Polarity</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <section id="polGraph">
+                <div id="imgDiv">
+                    <img src="/static/images/aunty.png" alt="" id="auntyImg">
+                </div>
+                <div id="chartDiv">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </section>
+            <section>
+                <canvas id="donut" style="width:100%;max-width:600px"></canvas>
+            </section>
+        </article>
+
+
+    </main>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="/static/js/webslides.js"></script>
+<script>
+    window.ws = new WebSlides();
+</script>
+<script>
+
+    let data = JSON.parse('{{ data|tojson }}');
+
+    let username = data["user_name"];
+    let pol_avg = data['pol_avg'];
+    let sub_avg = data['sub_avg'];
+    let polarity = data['polarity'];
+    let subjectivity = data['subjectivity'];
+    let context = data['contexts'];
+
+    let xValues = [];
+
+    for (let i = 0; i < polarity.length; i++) {
+        xValues.push(i);
+    }
+
+
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: polarity,
+                borderColor: "red",
+                fill: false
+            }, {
+                data: subjectivity,
+                borderColor: "green",
+                fill: false
+            }
+            ]
+        },
+        options: {
+            legend: { display: false },
+        }
+    });
+
+    //for circular progress bar
+    var forEach = function (array, callback, scope) {
+        for (var i = 0; i < array.length; i++) {
+            callback.call(scope, i, array[i]);
+        }
+    };
+
+    const scale = (num, in_min = -1.0, in_max = 1.0, out_min = 0, out_max = 100) => {
+        return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+    window.onload = function () {
+        var max = -219.99078369140625;
+        // forEach(document.querySelectorAll('.progress_polarity'), function (index, value) {
+        //     percent = 20
+        //     value.querySelector('.fill').setAttribute('style', 'stroke-dashoffset: ' + ((100 - percent) / 100) * max);
+        //     value.querySelector('.value').innerHTML = percent + '%';
+        // });
+        forEach(document.querySelectorAll('.progress_subjectivity'), function (index, value) {
+            percent = scale(pol_avg).toFixed();
+            value.querySelector('.fill').setAttribute('style', 'stroke-dashoffset: ' + ((100 - percent) / 100) * max);
+            value.querySelector('.value').innerHTML = percent + '%';
+        });
+    }
+    //donut
+    let x_Values = []
+    let y_Values = []
+
+    for (let i = 0; i < context.length; i++) {
+        x_Values.push(context[i][0]);
+        y_Values.push(context[i][1]);
+    }
+
+
+    var barColors = [
+        "#b91d47",
+        "#00aba9",
+        "#2b5797",
+        "#e8c3b9",
+        "#1e7145"
+    ];
+
+    new Chart("donut", {
+        type: "doughnut",
+        data: {
+            labels: x_Values,
+            datasets: [{
+                backgroundColor: barColors,
+                data: y_Values
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Most Talked About Topic "
+            }
+        }
+    });
+</script>
+
 </html>
