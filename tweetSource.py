@@ -6,27 +6,28 @@ import requests
 import yaml
 import json
 
+class UserNotFound(Exception):
+    pass
 
 # the main function
 def run(username, FETCHCOUNT=20):
-    bearerToken = parse_yaml()
-    userID = getUserID(bearerToken, username)
-    #print(f"UserID is: {userID}")
 
-    tweetData = getTweets(bearerToken, userID, FETCHCOUNT)
-    jsonObj = json.loads(tweetData.text)
-    #print(json.dumps(jsonObj, indent =4))
-    # try:
-    #     loadGlobals(jsonObj)
-    #     topFiveTopics(fetchedContexts)
-    # except:
-    #     if len(fetchedTweets) > 0:
-    #         print("Only Tweets Loaded, There were no contexts.")
+    try:
 
-    fetchedTweets, fetchedContexts = getTweetsandContextList(jsonObj)
-    topFiveContexts = getTopFiveContexts(fetchedContexts)
+        bearerToken = parse_yaml()
+        userID = getUserID(bearerToken, username)
+        #print(f"UserID is: {userID}")
 
-    return fetchedTweets, topFiveContexts
+        tweetData = getTweets(bearerToken, userID, FETCHCOUNT)
+        jsonObj = json.loads(tweetData.text)
+
+        fetchedTweets, fetchedContexts = getTweetsandContextList(jsonObj)
+        topFiveContexts = getTopFiveContexts(fetchedContexts)
+
+        return fetchedTweets, topFiveContexts
+
+    except UserNotFound:
+        raise UserNotFound
 
 
 # parses the yaml and obtains ApiToken
@@ -56,15 +57,16 @@ def getTopFiveContexts(fetchedContexts, topX=5):
 def getTweetsandContextList(jsonObj):
     fetchedTweets = []
     fetchedContexts = []
-    for tweetDict in jsonObj["data"]:
-        # tweetDict for individual tweet
-        fetchedTweets.append(tweetDict["text"])
 
     try:
+        for tweetDict in jsonObj["data"]:
+            # tweetDict for individual tweet
+            fetchedTweets.append(tweetDict["text"])
+
         for contexts in tweetDict["context_annotations"]:
             fetchedContexts.append(contexts["entity"]["name"])
     except:
-        pass
+        return fetchedTweets, fetchedContexts
 
     return fetchedTweets, fetchedContexts
 
@@ -76,12 +78,12 @@ def getUserID(bearerToken, username):
     headers = {"Authorization": "Bearer {}".format(bearerToken)}
     response = requests.request("GET", urlForId, headers=headers)
 
-    if response.status_code != 200:
-        raise Exception("Error {}: {}".format(
-            response.status_code, response.text))
 
-    return response.json()["data"]["id"]
-
+    try:
+        return response.json()["data"]["id"]
+    
+    except:
+        raise UserNotFound('The given user is not available')
 
 # requests api for tweets
 def getTweets(bearerToken, userID, FETCHCOUNT):
@@ -92,6 +94,6 @@ def getTweets(bearerToken, userID, FETCHCOUNT):
 
 
 if __name__ == "__main__":
-    x, y = run("elonmusk")
+    x, y = run("elfvvvvvvvvvvhyn")
     print(x)
     print(y)
