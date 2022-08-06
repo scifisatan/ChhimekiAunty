@@ -22,5 +22,7 @@ def process_data(user_input):
         polarity.append(result[0])
         subjectivity.append(result[1])
 
+    pol_avg = sum(polarity) / len(polarity)
+    sub_avg = sum(subjectivity) / len(subjectivity)
 
-    return polarity, subjectivity, contexts
+    return polarity, subjectivity, contexts, pol_avg, sub_avg
