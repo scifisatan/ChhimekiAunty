@@ -52,7 +52,6 @@ def getTopFiveContexts(fetchedContexts, topX=5):
     contexts= list(sorted(contexts.items() , key= lambda x: x[1], reverse = True) )
     #print(contexts)
 
-
     return contexts[:topX]
         
 
@@ -70,7 +69,7 @@ def getTopFiveContexts(fetchedContexts, topX=5):
 def getTweetsandContextList(jsonObj):
     fetchedTweets=[]
     fetchedContexts = []
-    
+
     for tweetDict in jsonObj["data"]:
         # tweetDict for individual tweet
         fetchedTweets.append(tweetDict["text"])

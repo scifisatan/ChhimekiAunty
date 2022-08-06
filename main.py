@@ -13,10 +13,9 @@ def index():
 
         #send input data to twitter api, and model
         #the api will be used only for username
-        sentiments, contexts = core.process_data(input)
-        avg_sentiment = sum(sentiments) / len(sentiments)
+        polarity, subjectivity, contexts = core.process_data(input)
 
-        return render_template('username.html', input = {'sentiments': sentiments, 'contexts': contexts, 'avg': avg_sentiment})
+        return render_template('username.html', input = {'polarity': polarity,'subjectivity': subjectivity, 'contexts': contexts})
 
         # if input.startswith('https://twitter.com/'):
         #     return render_template('tweet.html', input=input)

@@ -14,9 +14,13 @@ def process_data(user_input):
 
     #here we receive a list of tweets to analysis
     #a list of sentiment for each tweets will be provided
-    sentiments = []
+    polarity = []
+    subjectivity = []
 
     for tweet in tweets:
-        sentiments.append(blob.evaluate_tweet(tweet))
+        result = blob.evaluate_tweet(tweet)
+        polarity.append(result[0])
+        subjectivity.append(result[1])
 
-    return sentiments, contexts
+
+    return polarity, subjectivity, contexts
