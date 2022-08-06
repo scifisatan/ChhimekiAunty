@@ -10,7 +10,6 @@ import json
 # the main function
 def run(username, FETCHCOUNT=20):
     bearerToken = parse_yaml()
-
     userID = getUserID(bearerToken, username)
     #print(f"UserID is: {userID}")
 
