@@ -1,0 +1,18 @@
+@import url(https://fonts.googleapis.com/css?family=Bungee);
+@import url(https://fonts.googleapis.com/css?family=Kodchasan);
+
+.navbar-brand{
+    font-family: "Bungee", sans-serif;
+  }
+ div img{
+    max-width: 50%;
+    position: relative;
+    top: 355px;
+
+  }
+
+.charTwo img{
+    max-width: 50%;
+    position: relative;
+    top: 700px;
+}
