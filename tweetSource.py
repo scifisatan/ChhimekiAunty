@@ -94,6 +94,4 @@ def getTweets(bearerToken, userID, FETCHCOUNT):
 
 
 if __name__ == "__main__":
-    x, y = run("elfvvvvvvvvvvhyn")
-    print(x)
-    print(y)
+    pass
